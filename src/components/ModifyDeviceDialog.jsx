@@ -30,7 +30,7 @@ const ModifyDeviceDialog = ({
 			hostname: deviceData.hostname,
 			type: deviceData.type.value,
 			ip: deviceData.ip,
-			mac: deviceData.mac.value,
+			mac: deviceData.mac,
 			category: deviceData.category.id,
 		});
 		call('/devices', {
@@ -48,12 +48,13 @@ const ModifyDeviceDialog = ({
 
 	const handleMacChange = (e) => {
 		const mac = e.target.value;
-		setDeviceData({ ...deviceData, mac: { value: mac } });
+		setDeviceData({ ...deviceData, mac });
 		get(`/utils/oui/${e.target.value}`)
 			.then((data) => {
 				setDeviceData({
 					...deviceData,
-					mac: { value: mac, oui: data.company },
+					mac,
+					oui: data.company,
 				});
 			})
 			// eslint-disable-next-line no-console
@@ -110,8 +111,8 @@ const ModifyDeviceDialog = ({
 					<FormControl>
 						<TextField
 							label="MAC"
-							value={deviceData.mac.value}
-							helperText={deviceData.mac.oui}
+							value={deviceData.mac}
+							helperText={deviceData.oui}
 							onChange={handleMacChange}
 						/>
 					</FormControl>
@@ -195,6 +196,7 @@ ModifyDeviceDialog.propTypes = {
 			id: PropTypes.number.isRequired,
 			name: PropTypes.string.isRequired,
 		}),
+		oui: PropTypes.string,
 	}),
 	setDeviceData: PropTypes.func.isRequired,
 	deviceCategories: PropTypes.arrayOf(
