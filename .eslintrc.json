@@ -1,0 +1,21 @@
+{
+	"extends": ["airbnb", "prettier"],
+	"plugins": ["prettier"],
+	"rules": {
+		"prettier/prettier": ["error"],
+		"react/jsx-indent": ["error", "tab"],
+		"react/jsx-indent-props": ["error", "tab"]
+	},
+	"env": {
+		"browser": true,
+		"es6": true,
+		"node": true
+	},
+	"settings": {
+    "import/resolver": {
+      "node": {
+        "paths": ["src"]
+      }
+    }
+  }
+}
