@@ -28,10 +28,10 @@ const ModifyDeviceDialog = ({
 			id: deviceData.id,
 			name: deviceData.name,
 			hostname: deviceData.hostname,
-			type: deviceData.type.value,
+			type: deviceData.type,
 			ip: deviceData.ip,
 			mac: deviceData.mac,
-			category: deviceData.category.id,
+			category: deviceData.category,
 		});
 		call('/devices', {
 			method: deviceData.id ? 'PATCH' : 'PUT',
@@ -121,11 +121,11 @@ const ModifyDeviceDialog = ({
 					<FormControl>
 						<InputLabel htmlFor="modify-device-type">Type</InputLabel>
 						<Select
-							value={deviceData.type.value}
+							value={deviceData.type}
 							onChange={(e) =>
 								setDeviceData({
 									...deviceData,
-									type: { value: e.target.value },
+									type: e.target.value,
 								})
 							}
 							inputProps={{
@@ -146,14 +146,11 @@ const ModifyDeviceDialog = ({
 					<FormControl>
 						<InputLabel htmlFor="modify-device-category">Category</InputLabel>
 						<Select
-							value={deviceData.category.id}
+							value={deviceData.category}
 							onChange={(e) =>
 								setDeviceData({
 									...deviceData,
-									category: {
-										id: e.target.value,
-										name: e.currentTarget.dataset.name,
-									},
+									category: e.target.value,
 								})
 							}
 							inputProps={{

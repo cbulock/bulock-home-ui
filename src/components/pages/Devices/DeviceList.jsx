@@ -18,11 +18,12 @@ import ModifyDeviceDialog from '../../ModifyDeviceDialog';
 
 const defaultDeviceState = {
 	name: '',
-	type: { value: 'lan' },
-	category: { id: null },
+	type: '',
+	category: null,
 	ip: '',
-	mac: { value: '' },
+	mac: '',
 	hostname: '',
+	oui: '',
 };
 
 const DeviceList = () => {
@@ -103,6 +104,7 @@ const DeviceList = () => {
 							devices &&
 							deviceCategories.map((category) => (
 								<CategoryDisplay
+									key={category.id}
 									category={category}
 									devices={devices}
 									setEditDeviceData={setEditDeviceData}

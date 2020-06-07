@@ -10,6 +10,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
+import VlanBadge from 'components/common/VlanBadge';
 
 const SEditCell = styled(TableCell)`
 	max-width: 1em;
@@ -65,8 +66,13 @@ const DeviceRow = ({
 					{device.hostname}
 				</Grid>
 			</TableCell>
-			<TableCell>{device.type.display_name}</TableCell>
-			<TableCell>{device.ip}</TableCell>
+			<TableCell>{device.device_type.display_name}</TableCell>
+			<TableCell>
+				{device.ip}
+				{device.vlan && device.vlan.id && (
+					<VlanBadge id={device.vlan.id} name={device.vlan.name} />
+				)}
+			</TableCell>
 			<TableCell>
 				<code>{device.mac}</code>
 				<Typography variant="caption" display="block">
@@ -87,13 +93,19 @@ DeviceRow.propTypes = {
 		id: PropTypes.number,
 		name: PropTypes.string.isRequired,
 		hostname: PropTypes.string.isRequired,
-		type: PropTypes.shape({
+		type: PropTypes.string.isRequired,
+		device_type: PropTypes.shape({
 			value: PropTypes.string.isRequired,
 			display_name: PropTypes.string.isRequired,
 		}),
 		ip: PropTypes.string.isRequired,
 		mac: PropTypes.string.isRequired,
-		category: PropTypes.shape({
+		category: PropTypes.number.isRequired,
+		device_category: PropTypes.shape({
+			id: PropTypes.number.isRequired,
+			name: PropTypes.string.isRequired,
+		}),
+		vlan: PropTypes.shape({
 			id: PropTypes.number.isRequired,
 			name: PropTypes.string.isRequired,
 		}),

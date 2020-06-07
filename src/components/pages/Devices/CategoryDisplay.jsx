@@ -1,8 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import DeviceRow from './DeviceRow';
+
+const SHeaderRow = styled(TableRow)`
+	background-color: ${({ theme }) => theme.palette.primary.light};
+`;
+
+const SHeaderCell = styled(TableCell)`
+	&& {
+		color: ${({ theme }) => theme.palette.primary.contrastText};
+	}
+`;
 
 const CategoryDisplay = ({
 	category,
@@ -11,14 +22,14 @@ const CategoryDisplay = ({
 	setModifyDeviceDialogOpen,
 }) => (
 	<>
-		<TableRow key={category.id}>
-			<TableCell variant="head" colspan="100%">
+		<SHeaderRow key={category.id}>
+			<SHeaderCell variant="head" colSpan="100%">
 				{category.name}
-			</TableCell>
-		</TableRow>
+			</SHeaderCell>
+		</SHeaderRow>
 
 		{devices
-			.filter((device) => device.category.id === category.id)
+			.filter((device) => device.category === category.id)
 			.sort((a, b) => {
 				if (a.ip < b.ip) {
 					return -1;
@@ -30,6 +41,7 @@ const CategoryDisplay = ({
 			})
 			.map((device) => (
 				<DeviceRow
+					key={device.id}
 					device={device}
 					devices={devices}
 					setEditDeviceData={setEditDeviceData}
