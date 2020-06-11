@@ -6,11 +6,10 @@ import Typography from '@material-ui/core/Typography';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import IconButton from '@material-ui/core/IconButton';
-import Tooltip from '@material-ui/core/Tooltip';
 import EditIcon from '@material-ui/icons/Edit';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import ErrorIcon from '@material-ui/icons/Error';
 import VlanBadge from 'components/common/VlanBadge';
+import HostMonitoringCheck from './HostMonitoringCheck';
+import HostnameDnsCheck from './HostnameDnsCheck';
 
 const SEditCell = styled(TableCell)`
 	max-width: 1em;
@@ -18,22 +17,6 @@ const SEditCell = styled(TableCell)`
 
 const SEditButton = styled(IconButton)`
 	float: right;
-`;
-
-const statusIconStyle = `
-&& {
-	font-size: 1rem;
-	margin-right: 5px;
-}`;
-
-const SCheckCircleIcon = styled(CheckCircleIcon)`
-	color: ${({ theme }) => theme.palette.success.main};
-	${statusIconStyle}
-`;
-
-const SErrorIcon = styled(ErrorIcon)`
-	color: ${({ theme }) => theme.palette.error.main};
-	${statusIconStyle}
 `;
 
 const DeviceRow = ({
@@ -52,17 +35,10 @@ const DeviceRow = ({
 			<TableCell>{device.name}</TableCell>
 			<TableCell>
 				<Grid container alignItems="center">
-					{device.hostnameValid !== undefined && (
-						<Tooltip
-							title={
-								device.hostnameValid
-									? 'Hostname properly resolving'
-									: 'Hostname not resolving to IP listed'
-							}
-						>
-							{device.hostnameValid ? <SCheckCircleIcon /> : <SErrorIcon />}
-						</Tooltip>
+					{device.hostname && (
+						<HostMonitoringCheck hostname={device.hostname} />
 					)}
+					<HostnameDnsCheck isValid={device.hostnameValid} />
 					{device.hostname}
 				</Grid>
 			</TableCell>
