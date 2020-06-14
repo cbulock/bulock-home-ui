@@ -36,17 +36,14 @@ const SHelpIcon = styled(HelpIcon)`
 const HostMonitoringCheck = ({ hostname }) => {
 	const [deviceStatus, setDeviceStatus] = useState('loading');
 
-	const fetchMonitoringStatus = () => {
+	useEffect(() => {
+		// fetch monitoring status
 		get(`/devices/monitoring/${hostname}`)
 			.then((data) => {
 				setDeviceStatus(data.status);
 			})
 			.catch(() => setDeviceStatus('unknown'));
-	};
-
-	useEffect(() => {
-		fetchMonitoringStatus();
-	}, []);
+	}, [hostname]);
 
 	const renderIcon = (status) => {
 		switch (status) {

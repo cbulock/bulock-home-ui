@@ -1,8 +1,8 @@
-const call = (method, params = {}) =>
-	fetch(`${process.env.REACT_APP_API_URL}${method}`, params);
+const API_URL = process.env.REACT_APP_API_URL;
 
-const get = (method) =>
-	fetch(`${process.env.REACT_APP_API_URL}${method}`).then((res) => res.json());
+const call = (method, params = {}) => fetch(`${API_URL}${method}`, params);
+
+const get = (method) => fetch(`${API_URL}${method}`).then((res) => res.json());
 
 export default call;
 
