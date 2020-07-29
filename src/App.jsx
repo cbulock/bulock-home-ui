@@ -3,11 +3,15 @@ import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import { Provider as APIProvider } from 'use-http';
 
 import theme from './themes/default';
 import GlobalStyle from './components/common/GlobalStyle';
 
 import DeviceList from './components/pages/Devices/DeviceList';
+import Vlans from './components/pages/Network/Vlans';
+
+const API_URL = process.env.REACT_APP_API_URL;
 
 const App = () => (
 	<>
@@ -44,21 +48,29 @@ const App = () => (
 			<link rel="manifest" href="/manifest.json" />
 			<title>Bulock Network Config Panel</title>
 		</Helmet>
-		<MuiThemeProvider theme={theme}>
-			<StyledThemeProvider theme={theme}>
-				<GlobalStyle />
-				<Router>
-					<Switch>
-						<Route path="/">
-							<DeviceList />
-						</Route>
-						<Route path="/devices">
-							<DeviceList />
-						</Route>
-					</Switch>
-				</Router>
-			</StyledThemeProvider>
-		</MuiThemeProvider>
+		<APIProvider
+			url={API_URL}
+			options={{ responseType: 'json', cachePolicy: 'no-cache' }}
+		>
+			<MuiThemeProvider theme={theme}>
+				<StyledThemeProvider theme={theme}>
+					<GlobalStyle />
+					<Router>
+						<Switch>
+							<Route path="/devices">
+								<DeviceList />
+							</Route>
+							<Route path="/vlans">
+								<Vlans />
+							</Route>
+							<Route path="/">
+								<DeviceList />
+							</Route>
+						</Switch>
+					</Router>
+				</StyledThemeProvider>
+			</MuiThemeProvider>
+		</APIProvider>
 	</>
 );
 

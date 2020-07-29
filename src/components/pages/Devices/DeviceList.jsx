@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import useFetch from 'use-http';
 import Typography from '@material-ui/core/Typography';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -12,7 +13,6 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-import { get } from 'modules/api';
 import CategoryDisplay from './CategoryDisplay';
 import ModifyDeviceDialog from '../../ModifyDeviceDialog';
 
@@ -27,42 +27,13 @@ const defaultDeviceState = {
 };
 
 const DeviceList = () => {
-	const [devices, setDevices] = useState([]);
-	const [deviceTypes, setDeviceTypes] = useState(null);
-	const [deviceCategories, setDeviceCategories] = useState(null);
 	const [modifyDeviceDialogOpen, setModifyDeviceDialogOpen] = useState(false);
 	const [editDeviceData, setEditDeviceData] = useState(defaultDeviceState);
 
-	const fetchDevices = () => {
-		get('/devices')
-			.then((data) => {
-				setDevices(data);
-			})
-			// eslint-disable-next-line no-console
-			.catch(console.log);
-	};
+	const { data: devices = [] } = useFetch('/devices', [modifyDeviceDialogOpen]);
+	const { data: deviceTypes = [] } = useFetch('/devices/types', []);
+	const { data: deviceCategories = [] } = useFetch('/devices/categories', []);
 
-	useEffect(() => {
-		fetchDevices();
-	}, []);
-
-	useEffect(() => {
-		get('/devices/types')
-			.then((data) => {
-				setDeviceTypes(data);
-			})
-			// eslint-disable-next-line no-console
-			.catch(console.log);
-	}, []);
-
-	useEffect(() => {
-		get('/devices/categories')
-			.then((data) => {
-				setDeviceCategories(data);
-			})
-			// eslint-disable-next-line no-console
-			.catch(console.log);
-	}, []);
 
 	const handleAdd = () => {
 		setEditDeviceData(defaultDeviceState);
@@ -122,7 +93,6 @@ const DeviceList = () => {
 				deviceCategories={deviceCategories}
 				deviceData={editDeviceData}
 				setDeviceData={setEditDeviceData}
-				fetchDevices={fetchDevices}
 			/>
 		</>
 	);

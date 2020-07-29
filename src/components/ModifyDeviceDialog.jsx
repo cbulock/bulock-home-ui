@@ -21,7 +21,6 @@ const ModifyDeviceDialog = ({
 	setDeviceData,
 	deviceCategories,
 	deviceTypes,
-	fetchDevices,
 }) => {
 	const saveChanges = () => {
 		const data = JSON.stringify({
@@ -39,7 +38,6 @@ const ModifyDeviceDialog = ({
 			body: data,
 		})
 			.then(() => {
-				fetchDevices();
 				setOpen(false);
 			})
 			// eslint-disable-next-line no-console
@@ -208,7 +206,6 @@ ModifyDeviceDialog.propTypes = {
 			display_name: PropTypes.string.isRequired,
 		}),
 	).isRequired,
-	fetchDevices: PropTypes.func.isRequired,
 };
 
 ModifyDeviceDialog.defaultProps = {
