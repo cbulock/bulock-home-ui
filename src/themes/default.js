@@ -41,15 +41,7 @@ const theme = createMuiTheme({
 		},
 	},
 	typography: {
-		fontFamily: ['Open Sans', 'sans-serif'].join(','),
-		monospace: ['B612 Mono', 'monospace'].join(','),
-	},
-	overrides: {
-		MuiTableCell: {
-			head: {
-				fontWeight: 600,
-			},
-		},
+		fontFamily: ['Ovo', 'serif'].join(','),
 	},
 });
 

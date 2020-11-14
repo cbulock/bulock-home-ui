@@ -1,17 +1,22 @@
 import React from 'react';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/core/styles';
+import {
+	ThemeProvider as MuiThemeProvider,
+	StylesProvider as MuiStylesProvider,
+} from '@material-ui/core/styles';
 import { ThemeProvider as StyledThemeProvider } from 'styled-components';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-import { Provider as APIProvider } from 'use-http';
+import SimpleReactLightbox from 'simple-react-lightbox';
 
 import theme from './themes/default';
 import GlobalStyle from './components/common/GlobalStyle';
 
-import DeviceList from './components/pages/Devices/DeviceList';
-import Vlans from './components/pages/Network/Vlans';
+import Header from './components/common/Header';
 
-const API_URL = process.env.REACT_APP_API_URL;
+import Home from './components/pages/Home';
+import NotFound from './components/pages/NotFound';
+import Wedding from './components/pages/Wedding';
+import Portraits from './components/pages/Portraits';
 
 const App = () => (
 	<>
@@ -19,13 +24,12 @@ const App = () => (
 			<meta charset="utf-8" />
 			<meta name="viewport" content="width=device-width, initial-scale=1" />
 			<meta name="theme-color" content="#57789f" />
-			<meta name="description" content="Bulock Network Config Panel" />
-			<link
-				href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap"
-				rel="stylesheet"
+			<meta
+				name="description"
+				content="Portraiture & Fine Art Photography by Louis Villafranca"
 			/>
 			<link
-				href="https://fonts.googleapis.com/css2?family=B612+Mono:wght@400;700&display=swap"
+				href="https://fonts.googleapis.com/css2?family=Ovo&display=swap"
 				rel="stylesheet"
 			/>
 			<link
@@ -46,31 +50,34 @@ const App = () => (
 				href="/favicon-16x16.png"
 			/>
 			<link rel="manifest" href="/manifest.json" />
-			<title>Bulock Network Config Panel</title>
+			<title>Classic Shots</title>
 		</Helmet>
-		<APIProvider
-			url={API_URL}
-			options={{ responseType: 'json', cachePolicy: 'no-cache' }}
-		>
+		<SimpleReactLightbox>
 			<MuiThemeProvider theme={theme}>
-				<StyledThemeProvider theme={theme}>
-					<GlobalStyle />
-					<Router>
-						<Switch>
-							<Route path="/devices">
-								<DeviceList />
-							</Route>
-							<Route path="/vlans">
-								<Vlans />
-							</Route>
-							<Route path="/">
-								<DeviceList />
-							</Route>
-						</Switch>
-					</Router>
-				</StyledThemeProvider>
+				<MuiStylesProvider injectFirst>
+					<StyledThemeProvider theme={theme}>
+						<GlobalStyle />
+						<Router>
+							<Header />
+							<Switch>
+								<Route exact path="/weddings">
+									<Wedding />
+								</Route>
+								<Route exact path="/portraits">
+									<Portraits />
+								</Route>
+								<Route exact path="/">
+									<Home />
+								</Route>
+								<Route>
+									<NotFound />
+								</Route>
+							</Switch>
+						</Router>
+					</StyledThemeProvider>
+				</MuiStylesProvider>
 			</MuiThemeProvider>
-		</APIProvider>
+		</SimpleReactLightbox>
 	</>
 );
 
