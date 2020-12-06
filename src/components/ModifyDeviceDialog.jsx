@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
 import TextField from '@material-ui/core/TextField';
@@ -9,10 +8,6 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { get, call } from 'modules/api';
 import Dialog from './common/Dialog';
-
-const SItems = styled(Grid)`
-	padding: 1em;
-`;
 
 const ModifyDeviceDialog = ({
 	open,
@@ -71,9 +66,9 @@ const ModifyDeviceDialog = ({
 				},
 			]}
 		>
-			<Grid container>
-				<SItems item xs={6}>
-					<FormControl>
+			<Box display="flex" flexDirection="column">
+				<Box display="flex">
+					<Box p={2}>
 						<TextField
 							label="Name"
 							value={deviceData.name}
@@ -81,10 +76,8 @@ const ModifyDeviceDialog = ({
 								setDeviceData({ ...deviceData, name: e.target.value })
 							}
 						/>
-					</FormControl>
-				</SItems>
-				<SItems item xs={6}>
-					<FormControl>
+					</Box>
+					<Box p={2}>
 						<TextField
 							label="Hostname"
 							value={deviceData.hostname}
@@ -92,10 +85,10 @@ const ModifyDeviceDialog = ({
 								setDeviceData({ ...deviceData, hostname: e.target.value })
 							}
 						/>
-					</FormControl>
-				</SItems>
-				<SItems item xs={6}>
-					<FormControl>
+					</Box>
+				</Box>
+				<Box display="flex">
+					<Box p={2}>
 						<TextField
 							label="IP"
 							value={deviceData.ip}
@@ -103,73 +96,73 @@ const ModifyDeviceDialog = ({
 								setDeviceData({ ...deviceData, ip: e.target.value })
 							}
 						/>
-					</FormControl>
-				</SItems>
-				<SItems item xs={6}>
-					<FormControl>
+					</Box>
+					<Box p={2}>
 						<TextField
 							label="MAC"
 							value={deviceData.mac}
 							helperText={deviceData.oui}
 							onChange={handleMacChange}
 						/>
-					</FormControl>
-				</SItems>
-				<SItems item xs={6}>
-					<FormControl>
-						<InputLabel htmlFor="modify-device-type">Type</InputLabel>
-						<Select
-							value={deviceData.type}
-							onChange={(e) =>
-								setDeviceData({
-									...deviceData,
-									type: e.target.value,
-								})
-							}
-							inputProps={{
-								name: 'type',
-								id: 'modify-device-type',
-							}}
-						>
-							{deviceTypes &&
-								deviceTypes.map((deviceType) => (
-									<MenuItem key={deviceType.value} value={deviceType.value}>
-										{deviceType.display_name}
-									</MenuItem>
-								))}
-						</Select>
-					</FormControl>
-				</SItems>
-				<SItems item xs={6}>
-					<FormControl>
-						<InputLabel htmlFor="modify-device-category">Category</InputLabel>
-						<Select
-							value={deviceData.category}
-							onChange={(e) =>
-								setDeviceData({
-									...deviceData,
-									category: e.target.value,
-								})
-							}
-							inputProps={{
-								name: 'category',
-								id: 'modify-device-category',
-							}}
-						>
-							{deviceCategories &&
-								deviceCategories.map((deviceCategory) => (
-									<MenuItem
-										key={deviceCategory.id}
-										value={deviceCategory.id}
-										data-name={deviceCategory.name}
-									>
-										{deviceCategory.name}
-									</MenuItem>
-								))}
-						</Select>
-					</FormControl>
-				</SItems>
-			</Grid>
+					</Box>
+				</Box>
+				<Box display="flex">
+					<Box p={2}>
+						<FormControl>
+							<InputLabel htmlFor="modify-device-type">Type</InputLabel>
+							<Select
+								value={deviceData.type}
+								onChange={(e) =>
+									setDeviceData({
+										...deviceData,
+										type: e.target.value,
+									})
+								}
+								inputProps={{
+									name: 'type',
+									id: 'modify-device-type',
+								}}
+							>
+								{deviceTypes &&
+									deviceTypes.map((deviceType) => (
+										<MenuItem key={deviceType.value} value={deviceType.value}>
+											{deviceType.display_name}
+										</MenuItem>
+									))}
+							</Select>
+						</FormControl>
+					</Box>
+					<Box p={2}>
+						<FormControl>
+							<InputLabel htmlFor="modify-device-category">Category</InputLabel>
+							<Select
+								value={deviceData.category}
+								onChange={(e) =>
+									setDeviceData({
+										...deviceData,
+										category: e.target.value,
+									})
+								}
+								inputProps={{
+									name: 'category',
+									id: 'modify-device-category',
+								}}
+							>
+								{deviceCategories &&
+									deviceCategories.map((deviceCategory) => (
+										<MenuItem
+											key={deviceCategory.id}
+											value={deviceCategory.id}
+											data-name={deviceCategory.name}
+										>
+											{deviceCategory.name}
+										</MenuItem>
+									))}
+							</Select>
+						</FormControl>
+					</Box>
+				</Box>
+			</Box>
 		</Dialog>
 	);
 };
